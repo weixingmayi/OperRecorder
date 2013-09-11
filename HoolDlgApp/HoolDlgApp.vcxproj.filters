@@ -42,6 +42,12 @@
     <ClInclude Include="OperRecorder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HdEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HdEventString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HoolDlgApp.cpp">
@@ -54,6 +60,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OperRecorder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HdEvent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -99,6 +99,8 @@
     <None Include="res\HoolDlgApp.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HdEvent.h" />
+    <ClInclude Include="HdEventString.h" />
     <ClInclude Include="HoolDlgApp.h" />
     <ClInclude Include="HoolDlgAppDlg.h" />
     <ClInclude Include="OperRecorder.h" />
@@ -107,6 +109,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="HdEvent.cpp" />
     <ClCompile Include="HoolDlgApp.cpp" />
     <ClCompile Include="HoolDlgAppDlg.cpp" />
     <ClCompile Include="OperRecorder.cpp" />

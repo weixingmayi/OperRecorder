@@ -7,6 +7,7 @@
 #include "HoolDlgAppDlg.h"
 #include "afxdialogex.h"
 #include "..\hookDll2\HookAPIFuncs.h"
+#include "HdEvent.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -17,11 +18,13 @@ int HookMsgHandleThread(LPVOID _lParam)
 {
 	CHoolDlgAppDlg* pDlg = (CHoolDlgAppDlg*)_lParam;
 	MSG msg;
+	HdEvent* pEvent;
 	while (GetMessage(&msg, 0, 0, 0))
 	{
-		if(pDlg->GetRecorder()->OnRecvMsg(msg))
+		pEvent = pDlg->GetRecorder()->OnRecvMsg(msg);
+		if(pEvent)
 		{
-			pDlg->OnRecorderUpdated();
+			pDlg->OnRecorderUpdated(pEvent);
 		}
 	}
 	return 0;
@@ -74,6 +77,7 @@ CHoolDlgAppDlg::CHoolDlgAppDlg(CWnd* pParent /*=NULL*/)
 void CHoolDlgAppDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_EDIT_LOG, m_EditLog);
 }
 
 BEGIN_MESSAGE_MAP(CHoolDlgAppDlg, CDialogEx)
@@ -269,7 +273,23 @@ void CHoolDlgAppDlg::StopRecord()
 	
 }
 
-void CHoolDlgAppDlg::OnRecorderUpdated()
+void CHoolDlgAppDlg::OnRecorderUpdated( HdEvent* _pEvent )
 {
-	((CEdit*)GetDlgItem(IDC_EDIT_LOG))->SetWindowText(m_Recorder.GetRecordedLogStrings());
+	int nF, nL;
+	m_EditLog.GetSel(nF, nL);
+
+	m_EditLog.SetSel(-1, -1);
+	CString str;
+	_pEvent->ToString(str);
+	m_EditLog.ReplaceSel(str);
+
+	if (nF == -1 && nL == -1)
+	{
+		nF = m_EditLog.GetFirstVisibleLine();
+		if (nF > 0)
+		{
+			m_EditLog.LineScroll(-nF, 0);
+		}
+	}
 }
+

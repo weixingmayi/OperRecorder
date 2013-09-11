@@ -7,14 +7,23 @@ extern DWORD	g_dwThreadId;
 extern HWND		g_hWnd;
 LRESULT WINAPI MouseProc(int nCode,WPARAM wParam,LPARAM lParam)
 {
-	if (g_dwThreadId > 0)
+	if (nCode == HC_ACTION)
 	{
-		PostThreadMessage(g_dwThreadId, nCode, wParam, lParam);
+		CWnd* pWnd = AfxGetMainWnd();
+		PMOUSEHOOKSTRUCT mEvent = (PMOUSEHOOKSTRUCT)lParam;
+		pWnd->ScreenToClient(&(mEvent->pt));
+
+		LPARAM pos = (LPARAM)MAKELONG(mEvent->pt.x, mEvent->pt.y);
+		if (g_dwThreadId > 0)
+		{
+			PostThreadMessage(g_dwThreadId, WM_HOOKMOUSE_EVENT, wParam, pos);
+		}
+		else if(g_hWnd)
+		{
+			PostMessage(g_hWnd, WM_HOOKMOUSE_EVENT, wParam, pos);
+		}
 	}
-	else if(g_hWnd)
-	{
-		PostMessage(g_hWnd, nCode, wParam, lParam);
-	}
+	
 	return CallNextHookEx(g_hHook, nCode, wParam, lParam);
 }
 

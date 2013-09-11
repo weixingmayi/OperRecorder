@@ -4,7 +4,8 @@
 
 #pragma once
 #include "OperRecorder.h"
-
+#include "afxwin.h"
+class HdEvent;
 // CHoolDlgAppDlg dialog
 class CHoolDlgAppDlg : public CDialogEx
 {
@@ -47,10 +48,11 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	OperRecorder*	GetRecorder(){return &m_Recorder;}
-	void			OnRecorderUpdated();
+	void			OnRecorderUpdated(HdEvent* _pEvent);
 
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	
+	CEdit m_EditLog;
 };
